@@ -39,12 +39,20 @@ public class ConviteController {
 	@Autowired
 	ConviteService conviteService;
 	
+	public Integer soma = 0;
 	
 	
 	@SuppressWarnings("unchecked")
 	@PostMapping
 	public ResponseEntity salvar(Convite convite, HttpServletRequest req) throws ValidationException {
+		try{
 		return new ResponseEntity(this.conviteService.salvar(convite),HttpStatus.OK);
+		}catch (ValidationException e) {
+			return new ResponseEntity (e.getMessage(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	
@@ -58,8 +66,16 @@ public class ConviteController {
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/{id}")
+	
 	public ResponseEntity listarId(@PathVariable("id") Long id, HttpServletRequest req) throws ValidationException {
+		try {
 		return new ResponseEntity(this.conviteService.listarPorId(id),HttpStatus.OK);
+	}catch (ValidationException e) {
+		return new ResponseEntity (e.getMessage(), HttpStatus.CONFLICT);
+	} catch (Exception e) {
+		return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 		
 	}
 	
@@ -97,7 +113,7 @@ public class ConviteController {
 	public Integer somar() {
 		
     ArrayList<Integer> taxa = conviteRepository.findAlltaxa();
-    int soma=0;
+    
     
      for(int i=0;i<taxa.size();i++) {
 			
