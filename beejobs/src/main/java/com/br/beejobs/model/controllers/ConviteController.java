@@ -132,6 +132,22 @@ public class ConviteController {
 	
 	}
 	
+	@GetMapping("/sub")
+	public Integer sub() {
+		
+    ArrayList<Integer> taxa = conviteRepository.findAlltaxa();
+    
+    
+     for(int i=0;i<taxa.size();i++) {
+			
+	  soma = soma - taxa.get(i);
+	  
+        }
+		
+	   return soma;
+	 
+	}
+	
 			
 }
 
